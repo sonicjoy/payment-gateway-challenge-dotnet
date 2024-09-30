@@ -15,7 +15,6 @@ public record struct PaymentRequest(
     {
         get
         {
-
             try
             {
                 DateTime expiryDate = new(ExpiryYear, ExpiryMonth, 1);

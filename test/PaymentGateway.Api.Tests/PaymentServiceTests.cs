@@ -112,6 +112,7 @@ public class PaymentServiceTests
 
         entity.Status.Should().Be(PaymentStatus.Authorized);
 
+        entity.AuthorizationCode.Should().NotBeNull();
     }
 
     [Fact]

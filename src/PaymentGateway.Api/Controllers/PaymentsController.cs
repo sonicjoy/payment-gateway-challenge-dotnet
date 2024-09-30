@@ -21,13 +21,15 @@ public class PaymentsController(IPaymentsRepository paymentsRepository, IPayment
             return NotFound();
         }
 
-        return new OkObjectResult(payment); //implicitly cast PaymentEntity to PaymentResponse
+        return new OkObjectResult(new PaymentResponse(payment)); //implicitly cast PaymentEntity to PaymentResponse
     }
 
     [HttpPost]
     public async Task<ActionResult<PaymentResponse>> PostPaymentAsync(PaymentRequest paymentRequest)
     {
-        var response = await paymentService.ProcessPayment(paymentRequest);
+        var payment = await paymentService.ProcessPayment(paymentRequest);
+
+        var response = new PaymentResponse(payment);
 
         return (response.Status) switch
         {

@@ -22,4 +22,8 @@ public record PaymentEntity(
     {
         Status = status;
     }
+
+    public string? AuthorizationCode { get; set; }
+
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 }

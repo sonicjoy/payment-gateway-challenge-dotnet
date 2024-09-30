@@ -42,6 +42,7 @@ public class PaymentService(
         {
             logger.LogInformation($"Payment authorized for {entity.CardNumberLastFour}, authorization code {response.AuthorizationCode}.");
             entity.SetStatus(PaymentStatus.Authorized);
+            entity.AuthorizationCode = response.AuthorizationCode;
         }
         else
         {

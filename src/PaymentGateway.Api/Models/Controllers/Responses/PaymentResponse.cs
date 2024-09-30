@@ -14,6 +14,7 @@ public record struct PaymentResponse
         ExpiryYear = paymentEntity.ExpiryYear;
         Currency = paymentEntity.Currency;
         Amount = paymentEntity.Amount;
+        CreatedAt = paymentEntity.CreatedAt;
     }
 
     public Guid? Id { get; set; }
@@ -23,4 +24,5 @@ public record struct PaymentResponse
     public int? ExpiryYear { get; set; }
     public CurrencyEnum Currency { get; set; }
     public int? Amount { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 }
