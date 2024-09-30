@@ -1,5 +1,6 @@
 ﻿using PaymentGateway.Api.Enums;
 using PaymentGateway.Api.Models.Controllers.Requests;
+using PaymentGateway.Api.Models.Domain;
 using PaymentGateway.Api.Models.PaymentService;
 using PaymentGateway.Api.Services.HttpClients;
 
@@ -20,22 +21,25 @@ public class PaymentService(
     {
         var validationResult = await paymentRequestValidator.ValidateAsync(paymentRequest);
 
+        var entity = paymentRequest.CreatePaymentEntity();
+
         if (!validationResult.IsValid)
         {
             validationResult.Errors.ForEach(e =>
                 logger.LogWarning(
                     $"Validation error {e.ErrorCode} occured when process payment, message: {e.ErrorMessage}"));
 
-            return new PaymentEntity(paymentRequest) { Status = PaymentStatus.Rejected };
+            entity.SetStatus(PaymentStatus.Rejected);
+            return entity;
         }
 
 
         var response = await httpClient.PostPaymentAsync(new AcquiringBankRequest(paymentRequest));
 
-        var paymentResponse = new PaymentEntity(paymentRequest) { Status = response.Authorized ? PaymentStatus.Authorized : PaymentStatus.Declined };
+        entity.SetStatus(response.Authorized ? PaymentStatus.Authorized : PaymentStatus.Declined);
 
-        await paymentsRepository.Add(paymentResponse);
+        await paymentsRepository.Add(entity);
 
-        return paymentResponse;
+        return entity;
     }
 }

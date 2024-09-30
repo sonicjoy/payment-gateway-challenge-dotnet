@@ -10,6 +10,7 @@ using PaymentGateway.Api.Controllers;
 using PaymentGateway.Api.Enums;
 using PaymentGateway.Api.Models.Controllers.Requests;
 using PaymentGateway.Api.Models.Controllers.Responses;
+using PaymentGateway.Api.Models.Domain;
 using PaymentGateway.Api.Models.PaymentService;
 using PaymentGateway.Api.Models.ValueTypes;
 using PaymentGateway.Api.Services;
@@ -39,14 +40,13 @@ public class PaymentsControllerTests
     public async Task RetrievesAPaymentSuccessfully()
     {
         // Arrange
-        var payment = new PaymentEntity(new PaymentRequest(
+        var payment = new PaymentEntity(
             new CardNumber("12345678901234"),
             _random.Next(1, 12),
             _random.Next(2023, 2030),
             CurrencyEnum.GBP,
-            _random.Next(1, 10000),
-            new Cvv("123")
-        ));
+            _random.Next(1, 10000)
+        );
         await _paymentsRepository.Add(payment);
 
         // Act

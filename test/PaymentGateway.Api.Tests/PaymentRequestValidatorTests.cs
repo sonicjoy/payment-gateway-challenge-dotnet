@@ -36,7 +36,7 @@ public class PaymentRequestValidatorTests
         );
 
         var result = _validator.TestValidate(paymentRequest);
-        result.ShouldNotHaveValidationErrorFor(p => p.CardNumber.Value);
+        result.ShouldNotHaveValidationErrorFor(p => p.CardNumber);
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class PaymentRequestValidatorTests
         );
 
         var result = _validator.TestValidate(paymentRequest);
-        result.ShouldHaveValidationErrorFor(p => p.CardNumber.Value);
+        result.ShouldHaveValidationErrorFor(p => p.CardNumber);
     }
 
     [Fact]
@@ -70,7 +70,7 @@ public class PaymentRequestValidatorTests
         );
 
         var result = _validator.TestValidate(paymentRequest);
-        result.ShouldHaveValidationErrorFor(p => p.CardNumber.Value);
+        result.ShouldHaveValidationErrorFor(p => p.CardNumber);
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class PaymentRequestValidatorTests
         );
 
         var result = _validator.TestValidate(paymentRequest);
-        result.ShouldHaveValidationErrorFor(p => p.CardNumber.Value);
+        result.ShouldHaveValidationErrorFor(p => p.CardNumber);
     }
 
     [Fact]
@@ -240,7 +240,7 @@ public class PaymentRequestValidatorTests
         );
 
         var result = _validator.TestValidate(paymentRequest);
-        result.ShouldHaveValidationErrorFor(p => p.Cvv.Value);
+        result.ShouldHaveValidationErrorFor(p => p.Cvv);
     }
 
     [Fact]
@@ -256,6 +256,6 @@ public class PaymentRequestValidatorTests
             "123"
         );
         var result = _validator.TestValidate(paymentRequest);
-        result.ShouldNotHaveValidationErrorFor(p => p.Cvv.Value);
+        result.ShouldNotHaveValidationErrorFor(p => p.Cvv);
     }
 }

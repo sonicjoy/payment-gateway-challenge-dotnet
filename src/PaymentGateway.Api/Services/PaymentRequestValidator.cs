@@ -10,7 +10,9 @@ public class PaymentRequestValidator : AbstractValidator<PaymentRequest>
 {
     public PaymentRequestValidator(IDateTimeProvider dateTimeProvider)
     {
-        RuleFor(p => p.CardNumber).SetValidator(new CardNumberValidator());
+        RuleFor(p => p.CardNumber)
+            .Matches(@"^\d{14,19}$")
+            .WithMessage("Card number must be between 14 and 19 digits");;
 
         RuleFor(p => p.ExpiryMonth).InclusiveBetween(1, 12);
 
@@ -35,7 +37,9 @@ public class PaymentRequestValidator : AbstractValidator<PaymentRequest>
 
         RuleFor(p => p.Amount).GreaterThanOrEqualTo(0);
 
-        RuleFor(p => p.Cvv).SetValidator(new CvvValidator());
+        RuleFor(p => p.Cvv)
+            .Matches(@"^\d{3,4}$")
+            .WithMessage("Cvv must be between 3 and 4 digits");;
 
     }
 }
