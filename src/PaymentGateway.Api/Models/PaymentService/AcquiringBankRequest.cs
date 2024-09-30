@@ -1,6 +1,5 @@
 ﻿using PaymentGateway.Api.Enums;
 using PaymentGateway.Api.Models.Controllers.Requests;
-using PaymentGateway.Api.Services.Helpers;
 
 namespace PaymentGateway.Api.Models.PaymentService;
 
