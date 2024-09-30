@@ -8,7 +8,7 @@ public record struct AcquiringBankRequest(string CardNumber, string ExpiryDate, 
 {
     public AcquiringBankRequest(PaymentRequest paymentRequest)
         : this(paymentRequest.CardNumber,
-            ExpiryDateHelper.ExpiryDate(paymentRequest.ExpiryMonth, paymentRequest.ExpiryYear),
+            paymentRequest.ExpiryDate.ToString("MM/yyyy"),
             paymentRequest.Currency,
             paymentRequest.Amount,
             paymentRequest.Cvv)

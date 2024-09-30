@@ -17,22 +17,7 @@ public class PaymentRequestValidator : AbstractValidator<PaymentRequest>
 
         RuleFor(p => p.ExpiryYear).GreaterThanOrEqualTo(dateTimeProvider.Now.Date.Year);
 
-        RuleFor(p => p).Custom((p, context) =>
-        {
-            try
-            {
-                DateTime expiryDate = new(p.ExpiryYear, p.ExpiryMonth, 1);
-
-                if (expiryDate <= dateTimeProvider.Now.Date)
-                {
-                    context.AddFailure("ExpiryDate", "Expiry date is not in the future");
-                }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                context.AddFailure("ExpiryDate", "Invalid expiry date");
-            }
-        });
+        RuleFor(p => p.ExpiryDate).GreaterThan(dateTimeProvider.Now);
 
         RuleFor(p => p.Amount).GreaterThanOrEqualTo(0);
 

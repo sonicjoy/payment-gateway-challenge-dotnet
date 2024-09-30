@@ -1,8 +1,5 @@
 ﻿using FluentAssertions;
 
-using FluentValidation;
-using FluentValidation.Results;
-
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -111,7 +108,7 @@ public class PaymentServiceTests
 
         entity.Id.Should().Be(id);
 
-        entity.CardNumberLastFour.Should().Be("**********1234");
+        entity.CardNumberLastFour.Should().Be("************1234");
 
         entity.Status.Should().Be(PaymentStatus.Authorized);
 
@@ -151,7 +148,7 @@ public class PaymentServiceTests
 
         entity.Id.Should().Be(id);
 
-        entity.CardNumberLastFour.Should().Be("**********1234");
+        entity.CardNumberLastFour.Should().Be("************1234");
 
         entity.Status.Should().Be(PaymentStatus.Declined);
 

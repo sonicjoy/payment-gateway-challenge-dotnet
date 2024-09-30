@@ -2,7 +2,6 @@
 using PaymentGateway.Api.Models.Controllers.Requests;
 using PaymentGateway.Api.Models.DataStore;
 using PaymentGateway.Api.Models.PaymentService;
-using PaymentGateway.Api.Services.Helpers;
 using PaymentGateway.Api.Services.HttpClients;
 
 namespace PaymentGateway.Api.Services;
@@ -23,7 +22,7 @@ public class PaymentService(
         var validationResult = await paymentRequestValidator.ValidateAsync(paymentRequest);
 
         var entity = new PaymentEntity(
-            CardNumberHelper.MaskedValue(paymentRequest.CardNumber),
+            paymentRequest.MaskedCardNumber,
             paymentRequest.ExpiryMonth, paymentRequest.ExpiryYear,
             paymentRequest.Currency, paymentRequest.Amount);
 
