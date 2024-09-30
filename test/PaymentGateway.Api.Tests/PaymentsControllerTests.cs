@@ -12,8 +12,7 @@ using PaymentGateway.Api.Controllers;
 using PaymentGateway.Api.Enums;
 using PaymentGateway.Api.Models.Controllers.Requests;
 using PaymentGateway.Api.Models.Controllers.Responses;
-using PaymentGateway.Api.Models.Domain;
-using PaymentGateway.Api.Models.ValueTypes;
+using PaymentGateway.Api.Models.DataStore;
 using PaymentGateway.Api.Services;
 using PaymentGateway.Api.Services.Helpers;
 

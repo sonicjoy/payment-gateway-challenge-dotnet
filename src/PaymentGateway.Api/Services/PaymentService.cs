@@ -1,8 +1,8 @@
 ﻿using PaymentGateway.Api.Enums;
 using PaymentGateway.Api.Models.Controllers.Requests;
-using PaymentGateway.Api.Models.Domain;
+using PaymentGateway.Api.Models.DataStore;
 using PaymentGateway.Api.Models.PaymentService;
-using PaymentGateway.Api.Models.ValueTypes;
+using PaymentGateway.Api.Services.Helpers;
 using PaymentGateway.Api.Services.HttpClients;
 
 namespace PaymentGateway.Api.Services;

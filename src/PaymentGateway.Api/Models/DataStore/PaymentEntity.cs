@@ -1,7 +1,6 @@
 ﻿using PaymentGateway.Api.Enums;
-using PaymentGateway.Api.Models.ValueTypes;
 
-namespace PaymentGateway.Api.Models.Domain;
+namespace PaymentGateway.Api.Models.DataStore;
 
 public record PaymentEntity(
     string CardNumberLastFour,
