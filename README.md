@@ -16,3 +16,7 @@ PaymentGateway.sln
 ```
 
 Feel free to change the structure of the solution, use a different test library etc.
+
+---
+# Documentation
+For more detailed documentation, please refer to the [Payment Gateway Documentation](https://www.notion.so/Payment-Gateway-10f613eb35b9804eb4dddd0b8c38804b).
