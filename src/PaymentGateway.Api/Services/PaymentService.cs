@@ -2,6 +2,7 @@
 using PaymentGateway.Api.Models.Controllers.Requests;
 using PaymentGateway.Api.Models.Domain;
 using PaymentGateway.Api.Models.PaymentService;
+using PaymentGateway.Api.Models.ValueTypes;
 using PaymentGateway.Api.Services.HttpClients;
 
 namespace PaymentGateway.Api.Services;
@@ -13,7 +14,7 @@ public interface IPaymentService
 
 public class PaymentService(
     PaymentRequestValidator paymentRequestValidator,
-    AcquiringBankClient httpClient,
+    IAcquiringBankClient httpClient,
     IPaymentsRepository paymentsRepository,
     ILogger<PaymentService> logger) : IPaymentService
 {
@@ -21,7 +22,10 @@ public class PaymentService(
     {
         var validationResult = await paymentRequestValidator.ValidateAsync(paymentRequest);
 
-        var entity = paymentRequest.CreatePaymentEntity();
+        var entity = new PaymentEntity(
+            CardNumberHelper.MaskedValue(paymentRequest.CardNumber),
+            paymentRequest.ExpiryMonth, paymentRequest.ExpiryYear,
+            paymentRequest.Currency, paymentRequest.Amount);
 
         if (!validationResult.IsValid)
         {
@@ -33,10 +37,18 @@ public class PaymentService(
             return entity;
         }
 
-
         var response = await httpClient.PostPaymentAsync(new AcquiringBankRequest(paymentRequest));
 
-        entity.SetStatus(response.Authorized ? PaymentStatus.Authorized : PaymentStatus.Declined);
+        if (response.Authorized)
+        {
+            logger.LogInformation($"Payment authorized for {entity.CardNumberLastFour}, authorization code {response.AuthorizationCode}.");
+            entity.SetStatus(PaymentStatus.Authorized);
+        }
+        else
+        {
+            logger.LogInformation($"Payment declined for {entity.CardNumberLastFour}.");
+            entity.SetStatus(PaymentStatus.Declined);
+        }
 
         await paymentsRepository.Add(entity);
 

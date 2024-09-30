@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
 
+using Microsoft.AspNetCore.Mvc;
+
+using PaymentGateway.Api.Enums;
 using PaymentGateway.Api.Models.Controllers.Requests;
 using PaymentGateway.Api.Models.Controllers.Responses;
 using PaymentGateway.Api.Services;
@@ -20,13 +23,20 @@ public class PaymentsController(IPaymentsRepository paymentsRepository, IPayment
             return NotFound();
         }
 
-        return new OkObjectResult(payment);
+        return new OkObjectResult(payment); //implicitly cast PaymentEntity to PaymentResponse
     }
 
     [HttpPost]
     public async Task<ActionResult<PaymentResponse>> PostPaymentAsync(PaymentRequest paymentRequest)
     {
         var response = await paymentService.ProcessPayment(paymentRequest);
-        return new CreatedResult($"/api/payments/{response.Id}", response);
+
+        return (response.Status) switch
+        {
+            PaymentStatus.Authorized => Ok(response),
+            PaymentStatus.Declined => StatusCode(StatusCodes.Status201Created, response),
+            PaymentStatus.Rejected => StatusCode(StatusCodes.Status406NotAcceptable, response),
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

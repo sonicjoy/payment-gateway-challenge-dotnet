@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 
 using PaymentGateway.Api.Models.Controllers.Requests;
-using PaymentGateway.Api.Models.ValueTypes;
 using PaymentGateway.Api.Services.Helpers;
 
 namespace PaymentGateway.Api.Services;

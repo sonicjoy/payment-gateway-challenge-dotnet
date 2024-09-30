@@ -28,7 +28,7 @@ builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<PaymentRequestValidator>();
 
-builder.Services.AddHttpClient<AcquiringBankClient>(client =>
+builder.Services.AddHttpClient<IAcquiringBankClient, AcquiringBankClient>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["AcquiringBank:BaseUrl"]!);
     client.DefaultRequestHeaders.Add("Accept", "application/json");

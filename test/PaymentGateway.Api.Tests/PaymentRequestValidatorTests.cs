@@ -4,7 +4,6 @@ using Moq;
 
 using PaymentGateway.Api.Enums;
 using PaymentGateway.Api.Models.Controllers.Requests;
-using PaymentGateway.Api.Models.ValueTypes;
 using PaymentGateway.Api.Services;
 using PaymentGateway.Api.Services.Helpers;
 
