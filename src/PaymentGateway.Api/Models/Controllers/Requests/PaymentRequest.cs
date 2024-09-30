@@ -3,11 +3,11 @@ using PaymentGateway.Api.Models.ValueTypes;
 
 namespace PaymentGateway.Api.Models.Controllers.Requests;
 
-public record PostPaymentRequest(
+public record PaymentRequest(
     CardNumber CardNumber,
     int ExpiryMonth,
     int ExpiryYear,
     CurrencyEnum Currency,
     int Amount,
-    int Cvv
+    Cvv Cvv
 );

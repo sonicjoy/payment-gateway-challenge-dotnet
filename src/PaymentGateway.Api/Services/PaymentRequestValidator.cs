@@ -6,7 +6,7 @@ using PaymentGateway.Api.Services.Helpers;
 
 namespace PaymentGateway.Api.Services;
 
-public class PaymentRequestValidator : AbstractValidator<PostPaymentRequest>
+public class PaymentRequestValidator : AbstractValidator<PaymentRequest>
 {
     public PaymentRequestValidator(IDateTimeProvider dateTimeProvider)
     {
@@ -27,7 +27,7 @@ public class PaymentRequestValidator : AbstractValidator<PostPaymentRequest>
                     context.AddFailure("ExpiryDate", "Expiry date is not in the future");
                 }
             }
-            catch(ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException)
             {
                 context.AddFailure("ExpiryDate", "Invalid expiry date");
             }
@@ -35,6 +35,7 @@ public class PaymentRequestValidator : AbstractValidator<PostPaymentRequest>
 
         RuleFor(p => p.Amount).GreaterThanOrEqualTo(0);
 
-        RuleFor(p => p.Cvv).InclusiveBetween(100, 9999);
+        RuleFor(p => p.Cvv).SetValidator(new CvvValidator());
+
     }
 }

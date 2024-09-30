@@ -1,26 +1,14 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace PaymentGateway.Api.Models.ValueTypes;
 
-public record struct CardNumber(string Value)
+public record struct CardNumber(string Value) : INumericString
 {
     public string MaskedValue => string.Concat(new string('*', Value.Length - 4), Value.AsSpan(Value.Length - 4));
-}
 
-public class CardNumberJsonConverter : JsonConverter<CardNumber>
-{
-    public override CardNumber Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        return new CardNumber(reader.GetString()!);
-    }
+    public static implicit operator CardNumber(string cardNumber) => new(cardNumber);
 
-    public override void Write(Utf8JsonWriter writer, CardNumber cardNumber, JsonSerializerOptions options)
-    {
-        writer.WriteStringValue(cardNumber.Value);
-    }
+    public static implicit operator string(CardNumber cardNumber) => cardNumber.Value;
 }
 
 public class CardNumberValidator : AbstractValidator<CardNumber>

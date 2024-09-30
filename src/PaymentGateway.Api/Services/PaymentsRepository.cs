@@ -1,18 +1,26 @@
-﻿using PaymentGateway.Api.Models.Controllers.Responses;
+﻿using PaymentGateway.Api.Models.PaymentService;
 
 namespace PaymentGateway.Api.Services;
 
-public class PaymentsRepository
+public interface IPaymentsRepository
 {
-    public List<PostPaymentResponse> Payments = [];
+    Task Add(PaymentEntity payment);
+    Task<PaymentEntity?> Get(Guid id);
+}
+
+public class PaymentsRepository : IPaymentsRepository
+{
+    public List<PaymentEntity> Payments = [];
     
-    public void Add(PostPaymentResponse payment)
+    public async Task Add(PaymentEntity payment)
     {
+        payment.SetId(Guid.NewGuid());
         Payments.Add(payment);
     }
 
-    public PostPaymentResponse? Get(Guid id)
+    public async Task<PaymentEntity?> Get(Guid id)
     {
         return Payments.FirstOrDefault(p => p.Id == id);
     }
+
 }

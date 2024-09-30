@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 
 using FluentValidation;
 
-using PaymentGateway.Api.Models.ValueTypes;
 using PaymentGateway.Api.Services;
 using PaymentGateway.Api.Services.Helpers;
+using PaymentGateway.Api.Services.HttpClients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,18 +16,23 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        options.JsonSerializerOptions.Converters.Add(new CardNumberJsonConverter());
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<PaymentsRepository>();
+builder.Services.AddSingleton<IPaymentsRepository, PaymentsRepository>();
 
 builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<PaymentRequestValidator>();
+
+builder.Services.AddHttpClient<AcquiringBankClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["AcquiringBank:BaseUrl"]!);
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
