@@ -17,13 +17,13 @@ public class PaymentRequestValidator : AbstractValidator<PaymentRequest>
 
         RuleFor(p => p.ExpiryYear).GreaterThanOrEqualTo(dateTimeProvider.Now.Date.Year);
 
-        RuleFor(p => p.ExpiryDate).GreaterThan(dateTimeProvider.Now);
+        RuleFor(p => p.ExpiryDate).GreaterThan(dateTimeProvider.Now.LocalDateTime);
 
         RuleFor(p => p.Amount).GreaterThanOrEqualTo(0);
 
         RuleFor(p => p.Cvv)
             .Matches(@"^\d{3,4}$")
-            .WithMessage("Cvv must be between 3 and 4 digits");;
+            .WithMessage("Cvv must be between 3 and 4 digits");
 
     }
 }

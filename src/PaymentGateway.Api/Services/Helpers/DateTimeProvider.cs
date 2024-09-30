@@ -2,10 +2,10 @@
 
 public interface IDateTimeProvider
 {
-    DateTime Now { get; }
+    DateTimeOffset Now { get; }
 }
 
 public class DateTimeProvider : IDateTimeProvider
 {
-    public DateTime Now => DateTime.Now;
+    public DateTimeOffset Now => DateTime.Now;
 }

@@ -22,7 +22,7 @@ public class PaymentService(
         var validationResult = await paymentRequestValidator.ValidateAsync(paymentRequest);
 
         var entity = new PaymentEntity(
-            paymentRequest.MaskedCardNumber,
+            paymentRequest.CardNumberLastFour,
             paymentRequest.ExpiryMonth, paymentRequest.ExpiryYear,
             paymentRequest.Currency, paymentRequest.Amount);
 

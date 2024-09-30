@@ -75,7 +75,7 @@ public class PaymentServiceTests
     }
 
     [Fact]
-    public async Task ProcessPayment_should_store_PaymentEntity_with_masked_card_number_after_receiving_Authorized_response()
+    public async Task ProcessPayment_should_store_PaymentEntity_with_card_number_last_4_digits_after_receiving_Authorized_response()
     {
         //arrange
         var paymentRequest = new PaymentRequest
@@ -108,7 +108,7 @@ public class PaymentServiceTests
 
         entity.Id.Should().Be(id);
 
-        entity.CardNumberLastFour.Should().Be("************1234");
+        entity.CardNumberLastFour.Should().Be("1234");
 
         entity.Status.Should().Be(PaymentStatus.Authorized);
 
@@ -116,7 +116,7 @@ public class PaymentServiceTests
     }
 
     [Fact]
-    public async Task ProcessPayment_should_store_PaymentEntity_with_masked_card_number_after_receiving_Declined_response()
+    public async Task ProcessPayment_should_store_PaymentEntity_with_card_number_last_4_digits_after_receiving_Declined_response()
     {
         //arrange
         var paymentRequest = new PaymentRequest
@@ -149,7 +149,7 @@ public class PaymentServiceTests
 
         entity.Id.Should().Be(id);
 
-        entity.CardNumberLastFour.Should().Be("************1234");
+        entity.CardNumberLastFour.Should().Be("1234");
 
         entity.Status.Should().Be(PaymentStatus.Declined);
 

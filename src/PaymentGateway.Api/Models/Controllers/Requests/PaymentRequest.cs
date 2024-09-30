@@ -17,9 +17,11 @@ public record struct PaymentRequest(
         {
             try
             {
-                DateTime expiryDate = new(ExpiryYear, ExpiryMonth, 1);
+                // The expiry date on your debit card is based on your local time.
+                // You can use your card until 11:59 PM on the last day of the month indicated on your card.
+                DateTime expiryDate = new(ExpiryYear, ExpiryMonth, DateTime.DaysInMonth(ExpiryYear, ExpiryMonth));
 
-                return expiryDate;
+                return expiryDate.AddDays(1);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -28,6 +30,6 @@ public record struct PaymentRequest(
         }
     }
 
-    // Mask the card number to only show the last 4 digits and regardless the real length of card number shows 12 '*' characters
-    public string MaskedCardNumber => string.Concat(new string('*', 12), CardNumber.AsSpan(CardNumber.Length - 4));
+    // only show the last 4 digits of the card number
+    public string CardNumberLastFour => CardNumber[^4..];
 }

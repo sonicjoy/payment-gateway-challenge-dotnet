@@ -163,7 +163,7 @@ public class PaymentRequestValidatorTests
         var paymentRequest = new PaymentRequest
         (
             "12345678901234",
-            9,
+            8,
             2024,
             CurrencyEnum.USD,
             100,

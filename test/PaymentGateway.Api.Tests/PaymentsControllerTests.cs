@@ -89,7 +89,7 @@ public class PaymentsControllerTests
         };
 
         PaymentEntity paymentEntity = new(
-            request.MaskedCardNumber,
+            request.CardNumberLastFour,
             request.ExpiryMonth,
             request.ExpiryYear,
             request.Currency,
@@ -126,7 +126,7 @@ public class PaymentsControllerTests
         };
 
         PaymentEntity paymentEntity = new(
-            request.MaskedCardNumber,
+            request.CardNumberLastFour,
             request.ExpiryMonth,
             request.ExpiryYear,
             request.Currency,
@@ -162,7 +162,7 @@ public class PaymentsControllerTests
         };
 
         PaymentEntity paymentEntity = new(
-            request.MaskedCardNumber,
+            request.CardNumberLastFour,
             request.ExpiryMonth,
             request.ExpiryYear,
             request.Currency,
