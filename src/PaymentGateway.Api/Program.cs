@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
@@ -31,7 +31,14 @@ builder.Services.AddCors(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Payment Gateway API",
+        Version = "v1"
+    });
+});
 
 builder.Services.AddSingleton<IPaymentsRepository, PaymentsRepository>();
 
@@ -49,17 +56,27 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    Console.WriteLine("Running in Development mode");
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Gateway API v1");
+        // Make swagger accessible at the root
+        c.RoutePrefix = "";
+    });
+}
+else
+{
+    Console.WriteLine("Not running in Development mode");
 }
 
 // Use CORS before other middleware
 app.UseCors("ReactAppPolicy");
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

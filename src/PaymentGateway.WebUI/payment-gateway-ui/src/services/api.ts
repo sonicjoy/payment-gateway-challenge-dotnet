@@ -2,7 +2,7 @@ import axios from 'axios';
 import { PaymentRequest, PaymentResponse } from '../types';
 
 // Base URL for the API
-const API_URL = 'http://localhost:5000/api'; // Adjust this to match your API URL
+const API_URL = 'https://localhost:7092/api'; // Adjust this to match your API URL
 
 // Create axios instance
 const api = axios.create({

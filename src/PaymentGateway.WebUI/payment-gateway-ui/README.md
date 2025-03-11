@@ -31,7 +31,7 @@ npm install
 ```
 
 This will:
-- Start the Payment Gateway API on http://localhost:5000
+- Start the Payment Gateway API on http2://localhost:7092
 - Start the React app on http://localhost:3000
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
